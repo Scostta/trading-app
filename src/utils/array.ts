@@ -1,0 +1,1 @@
+export const removeDuplicates = (arr: Array<string>) => arr.filter((item, index) => arr.indexOf(item) === index)
