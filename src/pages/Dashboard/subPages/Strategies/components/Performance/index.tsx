@@ -13,7 +13,7 @@ export const Performance = ({ performance, title }: PerformanceProps): JSX.Eleme
       <Text color="lightgray" fontSize="2xl">{title}</Text>
     </CardHeader>
     <CardBody>
-      Performance
+      {performance}
     </CardBody>
   </Card>)
 }
