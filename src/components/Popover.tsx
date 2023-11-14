@@ -7,6 +7,7 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from '@chakra-ui/react'
+import { bg } from '../utils/css'
 
 interface PopoverProps {
   trigger: JSX.Element
@@ -17,11 +18,11 @@ interface PopoverProps {
 export const Popover = ({ trigger, header, content }: PopoverProps): JSX.Element => {
 
   return (
-    <ChakraPopover placement='top'>
+    <ChakraPopover placement='top' trigger='hover' >
       <PopoverTrigger>
         {trigger}
       </PopoverTrigger>
-      <PopoverContent mr={4}>
+      <PopoverContent mr={4} bg={bg}>
         <PopoverArrow />
         <PopoverCloseButton />
         {Boolean(header) && <PopoverHeader>{header}</PopoverHeader>}

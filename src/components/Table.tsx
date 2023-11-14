@@ -119,8 +119,8 @@ export const Table = ({
                                             onClick={() => handleOnRowClick(row)}
                                             _hover={{ bg: row.canClick ? bg : "transparent" }}
                                         >
-                                            {columns.map(({ isNumeric, field, component: Compo }, i) => <Td key={i} isNumeric={isNumeric}>
-                                                {Compo ? <Compo {...{ [field]: row[field] }} /> : row[field]}
+                                            {columns.map(({ isNumeric, field, component: Compo, options }, i) => <Td key={i} isNumeric={isNumeric}>
+                                                {Compo ? <Compo {...{ [field]: row[field], options }} /> : row[field]}
                                             </Td>)}
                                             <Td width={2}>
                                                 <Flex gap={2}>

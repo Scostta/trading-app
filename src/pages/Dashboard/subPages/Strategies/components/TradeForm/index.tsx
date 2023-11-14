@@ -69,6 +69,10 @@ const TradeForm = ({ isOpen, onClose, data, isEdit }: TradeFormProps): JSX.Eleme
             )
           })}
         </Flex>
+        <FormControl>
+          <FormLabel>Cometario</FormLabel>
+          <Input {...register("comment")} />
+        </FormControl>
       </form>
     </Modal>
   )

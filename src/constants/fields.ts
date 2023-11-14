@@ -1,6 +1,6 @@
 import { TradeFormData } from "../types/forms"
 
-type TradeFields = {
+export type TradeFields = {
   label: string
   key: keyof TradeFormData
   type?: "text" | "number" | "time" | "date" | "file" | "checkbox"
@@ -67,7 +67,8 @@ export const TRADE_FIELDS = [
       { value: "15:30 - 16:15", label: "15:30 - 16:15" },
       { value: "ninguna", label: "Ninguna" }
     ],
-    required: true
+    required: true,
+    notShowing: true
   },
   {
     label: "Timeframe de Escaneo",
@@ -98,19 +99,22 @@ export const TRADE_FIELDS = [
       { value: "candlestick-formation", label: "Patron de velas" },
       { value: "IMB-confirmation", label: "IMB mas confirmacion" },
       { value: "IMB-no-confirmation", label: "IMB sin confirmacion" },
-    ]
+    ],
+    notShowing: true
   },
   {
     label: "Pips del SL",
     key: "pipsSl",
     required: true,
-    type: "number"
+    type: "number",
+    notShowing: true
   },
   {
     label: "Fecha",
     key: "date",
     type: "date",
-    onlyRead: true
+    onlyRead: true,
+    notShowing: true
   },
   {
     label: "Resultado",

@@ -1,6 +1,6 @@
 import { Trade } from "../../../types/db";
 import { db } from "../config";
-import { collection, deleteDoc, doc, getDocs, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 
 const DB_NAME = "trades"
 export const tradesCollectionRef = collection(db, DB_NAME)
@@ -45,6 +45,17 @@ export const firebaseEditTrade = async (data: Trade) => {
     try {
         const tradeRef = doc(tradesCollectionRef, id)
         await updateDoc(tradeRef, rest)
+    } catch (error) {
+        console.error(`firebase: ${error}`)
+    }
+}
+
+
+export const firebaseGetTrade = async (id: string) => {
+    try {
+        const tradeRef = doc(tradesCollectionRef, id)
+        const data = await getDoc(tradeRef)
+        return data.data()
     } catch (error) {
         console.error(`firebase: ${error}`)
     }

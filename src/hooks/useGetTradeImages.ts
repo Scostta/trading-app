@@ -3,7 +3,7 @@ import { getImages } from '../services/firebase/storage/images';
 
 type Image = { url: string, name: string }
 
-export const useGetTradeImages = (id: string | null) => {
+export const useGetTradeImages = (id: string | undefined) => {
   const [data, dataSet] = useState<Array<Image> | null>()
   const [isLoading, isLoadingSet] = useState(true)
 
@@ -12,7 +12,7 @@ export const useGetTradeImages = (id: string | null) => {
     isLoadingSet(true)
     const images = getImages(id)
     images.then(result => {
-      dataSet(result)
+      dataSet(result?.reverse())
       isLoadingSet(false)
     }).catch((error) => console.error(error))
   }, [id])

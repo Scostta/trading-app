@@ -21,6 +21,7 @@ export type TradeFormData = {
     tradingviewScan?: FileList | null
     isBE?: boolean
     imagesPaths?: Array<string>
+    comment?: string
 }
 
 export interface GoalFormData {

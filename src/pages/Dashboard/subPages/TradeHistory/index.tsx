@@ -6,6 +6,7 @@ import TradeForm from '../Strategies/components/TradeForm'
 import { TradeFormData } from '../../../../types/forms'
 import { useState } from 'react'
 import { useGetLinks } from '../../../../hooks/useLinks'
+import { TradeDetails } from '../Strategies/components/TradeDetails'
 
 interface TradeHistoryProps {
   trades?: TradesMetatrader
@@ -14,12 +15,13 @@ interface TradeHistoryProps {
 
 const TradeHistory = ({ trades, isLoading }: TradeHistoryProps): JSX.Element => {
   const [selectedTrade, selectedTradeSet] = useState<TradeMetatrader | null>(null)
+  const [showDetailsId, showDetailsIdSet] = useState<string | undefined>(undefined)
   const { data, isLoading: linksLoading } = useGetLinks()
   const links = data?.map(link => link.tradeId)
 
   const tradesTable = trades?.map(trade => ({
     ...trade,
-    canClick: !links?.includes(trade._id),
+    canClick: true,
     linked: links?.includes(trade._id)
   }))
 
@@ -33,10 +35,11 @@ const TradeHistory = ({ trades, isLoading }: TradeHistoryProps): JSX.Element => 
           }}
           rows={tradesTable}
           columns={COLUMNS}
-          onRowClick={(row) => selectedTradeSet(row as TradeMetatrader)}
+          onRowClick={(row) => !row.linked ? selectedTradeSet(row as TradeMetatrader) : showDetailsIdSet(row._id)}
         />
       </Flex>
       <TradeForm isOpen={!!selectedTrade} onClose={() => selectedTradeSet(null)} data={selectedTrade as TradeFormData | null} />
+      <TradeDetails id={showDetailsId} onClose={() => showDetailsIdSet(undefined)} />
     </>
   )
 }

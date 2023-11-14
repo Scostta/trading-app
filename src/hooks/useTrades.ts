@@ -4,6 +4,7 @@ import {
   firebaseCreateTrade,
   firebaseDeleteTrade,
   firebaseEditTrade,
+  firebaseGetTrade,
   tradesCollectionRef
 } from '../services/firebase/db/trades';
 import { TradeFormData } from '../types/forms';
@@ -32,7 +33,8 @@ const defaultValues = {
   entryTimeframe: "",
   tradingviewEntry: null,
   tradingviewScan: null,
-  isBe: false
+  isBe: false,
+  comment: ""
 }
 
 export const useGetTrades = () => {
@@ -148,4 +150,24 @@ export const useTradeForm = (trade?: TradeFormData | null, callback?: () => void
     reset,
     isLoading,
   }
+}
+
+export const useGetTrade = (tradeId: string | undefined) => {
+  const [data, dataSet] = useState<TradeFormData & TradeMetatrader | undefined>()
+  const [isLoading, isLoadingSet] = useState(true)
+
+  useEffect(() => {
+    if (!tradeId) return
+    isLoadingSet(true)
+    firebaseGetTrade(tradeId)
+      .then(result => {
+        dataSet(result as TradeFormData & TradeMetatrader)
+        isLoadingSet(false)
+      }).catch((error) => console.error(error))
+  }, [tradeId])
+
+  return {
+    data,
+    isLoading
+  };
 }

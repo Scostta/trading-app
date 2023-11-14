@@ -18,6 +18,7 @@ export type Trade = {
   imagesPaths?: Array<string>
   linkId?: string
   accountId: string
+  comment?: string
 }
 
 export interface Goal {
