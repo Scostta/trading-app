@@ -14,6 +14,7 @@ interface MonthlySummaryProps {
 const MonthlySummary = ({ metrics, isLoading }: MonthlySummaryProps): JSX.Element => {
 
   const parsedReturns = parseMonthlyReturns(metrics?.monthlyAnalytics)
+  const rows = metrics?.monthlyAnalytics.map(metric => ({ ...metric, percentage: (metric.profit / metrics.deposits) * 100 }))
 
   if (isLoading) return <Loading />
   return (
@@ -33,7 +34,7 @@ const MonthlySummary = ({ metrics, isLoading }: MonthlySummaryProps): JSX.Elemen
           <Table
             title='Resumen Mensual'
             columns={COLUMNS}
-            rows={metrics?.monthlyAnalytics}
+            rows={rows}
           />
         </Box>
 
