@@ -9,6 +9,7 @@ export type TradeFields = {
   notShowing?: boolean
   onlyRead?: boolean
   helpText?: string
+  full?: boolean
 }
 
 export const TRADE_FIELDS = [
@@ -126,18 +127,6 @@ export const TRADE_FIELDS = [
       { value: "be", label: "BE" },
     ],
     onlyRead: true
-  },
-  {
-    label: "Tradingview Scan",
-    key: "tradingviewScan",
-    type: "file",
-    notShowing: true
-  },
-  {
-    label: "Tradingview Entry",
-    key: "tradingviewEntry",
-    type: "file",
-    notShowing: true
   },
   {
     label: "Marca como Breakeven",

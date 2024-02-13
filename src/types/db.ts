@@ -15,10 +15,14 @@ export type Trade = {
   scanTimeframe: string
   entryType: string
   entryTimeframe: string
-  imagesPaths?: Array<string>
   linkId?: string
   accountId: string
   comment?: string
+  images?: Array<{
+    title?: string
+    description?: string
+    url: string
+  }>
 }
 
 export interface Goal {

@@ -24,10 +24,6 @@ const Strategies = (): JSX.Element => {
       <Flex gap={6}>
         <FieldsCharts data={trades} containerProps={{ w: "100%" }} />
       </Flex>
-      {/* <Flex gap={6} direction="row" w="full">
-        <Performance title='Mejor Rendimiento' performance='best' />
-        <Performance title='Peor Rendimiento' performance='worst' />
-      </Flex> */}
     </Flex>
   )
 }

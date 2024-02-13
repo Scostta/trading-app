@@ -3,8 +3,7 @@ import { Loading } from '../../../../components/Loading'
 import { MetricsMetatrader } from '../../../../types/metaStats'
 import { bg, cardBg } from '../../../../utils/css'
 import { COLORS } from '../../../../constants/colors'
-import { addSufixToNumber } from '../../../../utils/displays'
-import { CURRENCY } from '../../../../constants/currency'
+import { addSufixToNumber, formatPrice } from '../../../../utils/displays'
 import { LineChart } from '../../../../components/LineChart'
 import { parseGrowthCurve } from '../../../../utils/charts'
 import { Goal as GoalDB } from '../../../../types/db'
@@ -51,7 +50,7 @@ const Overview = ({ metrics, isLoading, goals, account }: OverviewProps): JSX.El
             <Flex justify="space-between">
               <Text color="grey" fontSize="xl">Depositado</Text>
             </Flex>
-            <Text fontSize="large">{addSufixToNumber(deposits, CURRENCY)}</Text>
+            <Text fontSize="large">{formatPrice(deposits)}</Text>
           </CardBody>
         </Card>
 
@@ -61,7 +60,7 @@ const Overview = ({ metrics, isLoading, goals, account }: OverviewProps): JSX.El
               <Text color="grey" fontSize="xl">Retiradas</Text>
               <Text color={getColor(withdrawalsPercentage)}>{addSufixToNumber(withdrawalsPercentage, "%")}</Text>
             </Flex>
-            <Text fontSize="large">{addSufixToNumber(withdrawals, CURRENCY)}</Text>
+            <Text fontSize="large">{formatPrice(withdrawals)}</Text>
           </CardBody>
         </Card>
 
@@ -74,7 +73,7 @@ const Overview = ({ metrics, isLoading, goals, account }: OverviewProps): JSX.El
               <Text color="grey" fontSize="xl">Patrimonio actual</Text>
               <Text color={getColor(equityPercentage)}>{addSufixToNumber(equityPercentage, "%")}</Text>
             </Flex>
-            <Text fontSize="large">{addSufixToNumber(equity, CURRENCY)}</Text>
+            <Text fontSize="large">{formatPrice(equity)}</Text>
           </CardBody>
         </Card>
 
@@ -84,7 +83,7 @@ const Overview = ({ metrics, isLoading, goals, account }: OverviewProps): JSX.El
               <Text color="grey" fontSize="xl">Ganacia/Perdida neta</Text>
               <Text color={getColor(equityPercentage)}>{addSufixToNumber(equityPercentage, "%")}</Text>
             </Flex>
-            <Text fontSize="large">{addSufixToNumber(profit, CURRENCY)}</Text>
+            <Text fontSize="large">{formatPrice(profit)}</Text>
           </CardBody>
         </Card>
 
@@ -94,7 +93,7 @@ const Overview = ({ metrics, isLoading, goals, account }: OverviewProps): JSX.El
               <Text color="grey" fontSize="xl">Saldo más alto</Text>
               <Text color={getColor(highestBalancePercentage)}>{addSufixToNumber(highestBalancePercentage, "%")}</Text>
             </Flex>
-            <Text fontSize="large">{addSufixToNumber(highestBalance, CURRENCY)}</Text>
+            <Text fontSize="large">{formatPrice(highestBalance)}</Text>
           </CardBody>
         </Card>
       </Flex>

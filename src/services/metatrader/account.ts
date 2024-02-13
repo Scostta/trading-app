@@ -6,7 +6,8 @@ export const getMetatraderAccounts = async (): Promise<Array<MetatraderAccount> 
     const accounts = await api.metatraderAccountApi.getAccounts()
     return accounts
   } catch (error) {
-    console.error(`metatrader: ${error}`)
+    console.error(`Metatrader: ${error}`)
+    throw Error('Error al recuperar las cuentas de metatrader')
   }
 
 }
@@ -30,6 +31,7 @@ export const connectMetatraderAccount = async (accountId: string): Promise<Metat
     return account
 
   } catch (error) {
-    console.error(`metatrader: ${error}`)
+    console.error(`Metatrader: ${error}`)
+    throw Error('Error al conectar la cuenta de metatrader')
   }
 }

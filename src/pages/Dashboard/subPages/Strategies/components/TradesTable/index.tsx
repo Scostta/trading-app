@@ -46,7 +46,7 @@ export const TradesTable = ({ data, isLoading }: TradesTableProps): JSX.Element 
         }}
         rows={dataTable}
         columns={columns}
-        onDelete={(row) => onDelete(row.id, row.linkId, row.imagesPaths)}
+        onDelete={(row) => onDelete(row.id, row.linkId)}
         onEdit={(row) => selectedTradeSet(row as Trade)}
         onRowClick={(row) => showDetailsIdSet(row.id)}
       />

@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 
 export const useBreakpoints = () => {
-    const [width, setWidth] = useState(window.innerWidth);
-    const handleWindowSizeChange = () => {
-        setWidth(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth);
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
     }
+  }, []);
 
-    useEffect(() => {
-        window.addEventListener('resize', handleWindowSizeChange);
-        return () => {
-            window.removeEventListener('resize', handleWindowSizeChange);
-        }
-    }, []);
-
-    return {
-        isMobile: width <= 768
-    };
+  return {
+    isMobile: width <= 768
+  };
 }

@@ -11,26 +11,26 @@ import { metatraderAccountIdAtom } from '../store/account'
 
 const Routes = (): JSX.Element => {
 
-    const user = useAtomValue(userAtom)
-    const metatraderIdAccount = useAtomValue(metatraderAccountIdAtom)
-    const isLogged = Boolean(user)
+  const user = useAtomValue(userAtom)
+  const metatraderIdAccount = useAtomValue(metatraderAccountIdAtom)
+  const isLogged = Boolean(user)
 
-    return <BrowserRouter>
-        <BrowserRoutes>
-            <Route element={<PrivateRoutes condition={isLogged} to={ROUTES.LOGIN} />}>
-                <Route element={<PrivateRoutes condition={!!metatraderIdAccount} to={ROUTES.ACCOUNTS} />}>
-                    <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-                </Route>
-                <Route element={<PrivateRoutes condition={!metatraderIdAccount} to={ROUTES.DASHBOARD} />}>
-                    <Route path={ROUTES.ACCOUNTS} element={<Accounts />} />
-                </Route>
-            </Route>
-            <Route element={<PrivateRoutes condition={!isLogged} to={ROUTES.DASHBOARD} />}>
-                <Route path={ROUTES.LOGIN} element={<Login />} />
-                {/* <Route path={ROUTES.REGISTER} element={<Register />} /> */}
-            </Route>
-        </BrowserRoutes>
-    </BrowserRouter>
+  return <BrowserRouter>
+    <BrowserRoutes>
+      <Route element={<PrivateRoutes condition={isLogged} to={ROUTES.LOGIN} />}>
+        <Route element={<PrivateRoutes condition={!!metatraderIdAccount} to={ROUTES.ACCOUNTS} />}>
+          <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+        </Route>
+        <Route element={<PrivateRoutes condition={!metatraderIdAccount} to={ROUTES.DASHBOARD} />}>
+          <Route path={ROUTES.ACCOUNTS} element={<Accounts />} />
+        </Route>
+      </Route>
+      <Route element={<PrivateRoutes condition={!isLogged} to={ROUTES.DASHBOARD} />}>
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+        {/* <Route path={ROUTES.REGISTER} element={<Register />} /> */}
+      </Route>
+    </BrowserRoutes>
+  </BrowserRouter>
 }
 
 export default Routes
