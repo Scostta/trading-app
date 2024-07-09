@@ -7,7 +7,6 @@ import Statistics from './subPages/Statistics'
 import { MetricsMetatrader, TradesMetatrader } from '../../types/metaStats'
 import { Goal } from '../../types/db'
 import { MetatraderAccount } from 'metaapi.cloud-sdk'
-import Config from './subPages/Config'
 import { Tabs } from '../../components/Tabs'
 
 interface TabsParams {
