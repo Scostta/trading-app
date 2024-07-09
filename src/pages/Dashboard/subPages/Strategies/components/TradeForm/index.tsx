@@ -20,6 +20,8 @@ const TradeForm = ({ isOpen, onClose, data, isEdit }: TradeFormProps): JSX.Eleme
 
   const [imagesScreenOpen, imagesScreenOpenSet] = useState(false)
   const [inputImageState, inputImageStateSet] = useState('')
+  const [step, setStep] = useState(0)
+
   const {
     register,
     onSubmit,
@@ -27,14 +29,16 @@ const TradeForm = ({ isOpen, onClose, data, isEdit }: TradeFormProps): JSX.Eleme
     reset,
     watch,
     setValue
-  } = useTradeForm(data, () => [onClose(), imagesScreenOpenSet(false)], isEdit)
+  } = useTradeForm(data, () => [onClose(), imagesScreenOpenSet(false), setStep(0)], isEdit)
 
   const images = watch('images')
+  const executionModel = watch('executionModel')
 
   const handleOnCancel = (): void => {
     reset()
     onClose()
     imagesScreenOpenSet(false)
+    setStep(0)
   }
 
   const handleOnReturnToForm = () => imagesScreenOpenSet(false)
@@ -52,18 +56,20 @@ const TradeForm = ({ isOpen, onClose, data, isEdit }: TradeFormProps): JSX.Eleme
     setValue("images", images?.filter((_, i) => i !== index))
   }
 
-
-  const primaryActionText = imagesScreenOpen ? "Guardar cambios" : isEdit ? "Editar" : "Añadir"
-  const secondaryActionText = imagesScreenOpen ? "Volver al formulario" : "Cancelar"
-  const secondaryActionClick = imagesScreenOpen ? handleOnReturnToForm : handleOnCancel
+  const primaryActionText = imagesScreenOpen ? "Guardar cambios" : step === 0 ? "Continuar" : isEdit ? "Editar" : "Añadir"
+  const primaryActionClick = step === 0 ? () => setStep(1) : onSubmit
+  const secondaryActionText = imagesScreenOpen ? "Volver al formulario" : step === 0 ? "Cancelar" : "Atras"
+  const secondaryActionClick = imagesScreenOpen ? handleOnReturnToForm : step === 0 ? handleOnCancel : () => setStep(0)
 
   const actions = [
     { variant: "ghost", children: secondaryActionText, onClick: secondaryActionClick },
-    { isLoading, type: "submit", colorScheme: "brand", children: primaryActionText, onClick: onSubmit },
+    { isLoading, type: "submit", colorScheme: "brand", children: primaryActionText, onClick: primaryActionClick, isDisabled: !executionModel },
   ] as ButtonProps[]
 
-  const tradesFields = TRADE_FIELDS.filter(field => !field.onlyRead)
+  const tradesFields = TRADE_FIELDS.filter(field => !field.onlyRead && !field.dependency)
   const imagesText = !images?.length ? "Añadir imagenes" : `Editar las imagenes añadidas (${images.length})`
+
+  const dependantFields = TRADE_FIELDS.filter(field => field.dependency === executionModel)
 
   return (
     <Modal
@@ -74,51 +80,86 @@ const TradeForm = ({ isOpen, onClose, data, isEdit }: TradeFormProps): JSX.Eleme
       {!imagesScreenOpen
         ? (
           <form onSubmit={onSubmit}>
-            <Flex w="full" gap={8}>
-              {[{ start: 0, end: tradesFields.length / 2 }, { start: tradesFields.length / 2, end: tradesFields.length }].map(({ start, end }, i) => {
-                return (
-                  <Box w="full" key={i}>
-                    {tradesFields.slice(Math.round(start), Math.round(end)).map(({ label, key, required, options, type, helpText }) => (
-                      <FormControl py={1.5} key={key} isRequired={required}>
-                        <FormLabel>{label}</FormLabel>
-                        {options
-                          ? <Select
-                            _hover={{ borderColor: brand }}
-                            _focusVisible={{ borderColor: brand }}
-                            placeholder="Select..."
-                            {...register(key, { required })}
-                          >
-                            {options.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
-                          </Select>
-                          : type === "checkbox"
-                            ? <Flex h={"40px"} align="center" gap={4}>
-                              <Checkbox size="lg" colorScheme="brand" {...register("isBE")} />
-                              <Text fontSize={"small"} >{helpText}</Text>
-                            </Flex>
-                            : <Input
-                              _hover={{ borderColor: brand }}
-                              _focusVisible={{ borderColor: brand }}
-                              py="4px"
-                              placeholder="Type..."
-                              type={type}
-                              {...register(key, { required })}
-                            />
-                        }
-                      </FormControl>
-                    ))}
-                  </Box>
-                )
-              })}
-            </Flex>
-            <FormControl>
-              <FormLabel>Cometario</FormLabel>
-              <Input {...register("comment")} />
-            </FormControl>
-            <Box mt={3}>
-              <Button colorScheme="brand" variant="link" onClick={() => imagesScreenOpenSet(true)}>
-                {imagesText}
-              </Button>
-            </Box>
+            {step === 0 ? (
+              <>
+                <Flex w="full" gap={8}>
+                  {[{ start: 0, end: tradesFields.length / 2 }, { start: tradesFields.length / 2, end: tradesFields.length }].map(({ start, end }, i) => {
+                    return (
+                      <Box w="full" key={i}>
+                        {tradesFields.slice(Math.round(start), Math.round(end)).map(({ label, key, required, options, type, helpText }) => (
+                          <FormControl py={1.5} key={key} isRequired={required}>
+                            <FormLabel>{label}</FormLabel>
+                            {options
+                              ? <Select
+                                _hover={{ borderColor: brand }}
+                                _focusVisible={{ borderColor: brand }}
+                                placeholder="Select..."
+                                {...register(key, { required })}
+                              >
+                                {options.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
+                              </Select>
+                              : type === "checkbox"
+                                ? <Flex h={"40px"} align="center" gap={4}>
+                                  <Checkbox size="lg" colorScheme="brand" {...register(key)} />
+                                  <Text fontSize={"small"} >{helpText}</Text>
+                                </Flex>
+                                : <Input
+                                  _hover={{ borderColor: brand }}
+                                  _focusVisible={{ borderColor: brand }}
+                                  py="4px"
+                                  placeholder="Type..."
+                                  type={type}
+                                  {...register(key, { required })}
+                                />
+                            }
+                          </FormControl>
+                        ))}
+                      </Box>
+                    )
+                  })}
+                </Flex>
+                <FormControl>
+                  <FormLabel>Cometario</FormLabel>
+                  <Input {...register("comment")} />
+                </FormControl>
+                <Box mt={3}>
+                  <Button colorScheme="brand" variant="link" onClick={() => imagesScreenOpenSet(true)}>
+                    {imagesText}
+                  </Button>
+                </Box>
+              </>
+            ) : (
+              <Flex w="full" direction="column">
+                {dependantFields.map(({ label, key, required, options, type, helpText }) => (
+                  <FormControl py={1.5} key={key} isRequired={required}>
+                    <FormLabel>{label}</FormLabel>
+                    {options
+                      ? <Select
+                        _hover={{ borderColor: brand }}
+                        _focusVisible={{ borderColor: brand }}
+                        placeholder="Select..."
+                        {...register(key, { required })}
+                      >
+                        {options.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
+                      </Select>
+                      : type === "checkbox"
+                        ? <Flex h={"40px"} align="center" gap={4}>
+                          <Checkbox size="lg" colorScheme="brand" {...register(key)} />
+                          <Text fontSize={"small"} >{helpText}</Text>
+                        </Flex>
+                        : <Input
+                          _hover={{ borderColor: brand }}
+                          _focusVisible={{ borderColor: brand }}
+                          py="4px"
+                          placeholder="Type..."
+                          type={type}
+                          {...register(key, { required })}
+                        />
+                    }
+                  </FormControl>
+                ))}
+              </Flex>
+            )}
           </form>
         )
         : (

@@ -18,20 +18,16 @@ import { metatraderAccountIdAtom } from '../store/account';
 
 const defaultValues = {
   date: new Date().toLocaleString("es", { year: "numeric", month: "2-digit", day: "2-digit" }).split('/').reverse().join('-'),
-  orderType: "",
-  executionType: "",
-  killzoneTime: "",
   pipsSl: "",
   result: "",
   sesion: "",
-  strategy: "",
-  trend: "",
-  scanTimeframe: "",
-  entryType: "",
+  executionModel: "",
+  stage: "",
   entryTimeframe: "",
   isBe: false,
   comment: "",
-  images: []
+  images: [],
+  hasLiquidity: false
 }
 
 export const useGetTrades = () => {

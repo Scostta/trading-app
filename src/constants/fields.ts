@@ -10,46 +10,10 @@ export type TradeFields = {
   onlyRead?: boolean
   helpText?: string
   full?: boolean
+  dependency?: string
 }
 
 export const TRADE_FIELDS = [
-  {
-    label: "Tipo de Orden",
-    key: "orderType",
-    required: true,
-    options: [
-      { value: "sell", label: "Sell" },
-      { value: "buy", label: "Buy" },
-    ],
-    onlyRead: true
-  },
-  {
-    label: "Tipo de Ejecucion",
-    key: "executionType",
-    required: true,
-    options: [
-      { value: "limit", label: "Limit" },
-      { value: "market", label: "Market" },
-    ]
-  },
-  {
-    label: "Estrategia",
-    key: "strategy",
-    required: true,
-    options: [
-      { value: "ob", label: "OB Inducida" },
-      { value: "maxOrMin", label: "Máximo o Mínimo" },
-    ]
-  },
-  {
-    label: "Tendencia",
-    key: "trend",
-    required: true,
-    options: [
-      { value: "bullish", label: "Alcista" },
-      { value: "bearish", label: "Bajista" },
-    ]
-  },
   {
     label: "Sesion",
     key: "sesion",
@@ -60,55 +24,44 @@ export const TRADE_FIELDS = [
     ]
   },
   {
-    label: "Ventana horaria",
-    key: "killzoneTime",
-    options: [
-      { value: "9:00 - 9:45", label: "9:00 - 9:45" },
-      { value: "10:20 - 10:35", label: "10:20 - 10:35" },
-      { value: "15:30 - 16:15", label: "15:30 - 16:15" },
-      { value: "ninguna", label: "Ninguna" }
-    ],
+    label: "Etapa macro",
+    key: "stage",
     required: true,
-    notShowing: true
+    options: [
+      { value: "1", label: "1" },
+      { value: "2", label: "2" },
+      { value: "3", label: "3" },
+      { value: "4", label: "4" },
+    ],
   },
   {
-    label: "Timeframe de Escaneo",
-    key: "scanTimeframe",
-    required: true,
+    label: "Modelo de entrada",
+    key: "executionModel",
     options: [
-      { value: "15", label: "15 min" },
-      { value: "30", label: "30 min" },
-      { value: "1", label: "1 H" },
-    ]
+      { value: "RVP", label: "RVP" },
+      { value: "slit", label: "Silt" },
+      { value: "spear", label: "Spear" },
+    ],
+    required: true,
   },
   {
     label: "Timeframe de Entrada",
     key: "entryTimeframe",
     required: true,
     options: [
-      { value: "1", label: "1 min" },
-      { value: "3", label: "3 min" },
-      { value: "5", label: "5 min" },
+      { value: "1D", label: "1D" },
+      { value: "4H", label: "4H" },
+      { value: "1H", label: "1H" },
+      { value: "15m", label: "15 min" },
+      { value: "5m", label: "5 min" },
+      { value: "1m", label: "1 min" },
     ]
-  },
-  {
-    label: "Tipo de Entrada",
-    key: "entryType",
-    required: true,
-    options: [
-      { value: "no-confirmation", label: "Sin confirmacion" },
-      { value: "candlestick-formation", label: "Patron de velas" },
-      { value: "IMB-confirmation", label: "IMB mas confirmacion" },
-      { value: "IMB-no-confirmation", label: "IMB sin confirmacion" },
-    ],
-    notShowing: true
   },
   {
     label: "Pips del SL",
     key: "pipsSl",
     required: true,
     type: "number",
-    notShowing: true
   },
   {
     label: "Fecha",
@@ -127,6 +80,97 @@ export const TRADE_FIELDS = [
       { value: "be", label: "BE" },
     ],
     onlyRead: true
+  },
+  {
+    label: "Fractales internos",
+    key: "interiorFractals",
+    required: true,
+    type: "number",
+    notShowing: true,
+    dependency: "RVP"
+  },
+  {
+    label: "Tipo de rompimiento",
+    key: "break_type",
+    options: [
+      { value: "weak", label: "Fuerte" },
+      { value: "strong", label: "Debil" },
+    ],
+    notShowing: true,
+    dependency: "RVP"
+  },
+  {
+    label: "Incentivo",
+    key: "hasVTX",
+    type: "checkbox",
+    notShowing: true,
+    helpText: "Tiene VTX para crear un nuevo fractal",
+    dependency: "RVP"
+  },
+  {
+    label: "Liquidez",
+    key: "hasLiquidity",
+    type: "checkbox",
+    notShowing: true,
+    helpText: "Tiene liquidez previa?",
+    dependency: "RVP"
+  },
+  {
+    label: "Nivel de falso rompimiento",
+    key: "break_level",
+    options: [
+      { value: "VTX", label: "Vortice" },
+      { value: "DKL", label: "Docking" },
+      { value: "RKL", label: "Rocking" },
+    ],
+    notShowing: true,
+    dependency: "slit"
+  },
+  {
+    label: "Velas desde el máximo/mínimo anterior",
+    key: "candles",
+    type: "number",
+    notShowing: true,
+    dependency: "slit"
+  },
+  {
+    label: "Tipo de rompimiento del máximo/mínimo anterior",
+    key: "break_type_slit",
+    options: [
+      { value: "weak", label: "Fuerte" },
+      { value: "strong", label: "Debil" },
+    ],
+    notShowing: true,
+    dependency: "slit"
+  },
+  {
+    label: "Imbalance",
+    key: "hasImbalance",
+    type: "checkbox",
+    notShowing: true,
+    helpText: "Tiene imbalance en la micro?",
+    dependency: "slit"
+  },
+  {
+    label: "Tipo de rompimiento",
+    key: "break_type_spear",
+    options: [
+      { value: "weak", label: "Fuerte" },
+      { value: "strong", label: "Debil" },
+    ],
+    notShowing: true,
+    dependency: "spear"
+  },
+  {
+    label: "Tipo de entrada",
+    key: "entry_type",
+    options: [
+      { value: "VTX", label: "VTX" },
+      { value: "Cambio de ritmo", label: "Cambio de ritmo" },
+      { value: "Alineacion de velas", label: "Alineacion de velas" },
+    ],
+    notShowing: true,
+    dependency: "spear"
   },
   {
     label: "Marca como Breakeven",

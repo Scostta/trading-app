@@ -14,7 +14,6 @@ interface GoalsProps {
   goals?: Array<GoalDB>
 }
 
-// TODO: PASAR EL GOAL A UN COMPONENTE PARA REUTILIZARLO EN EL OVERVIEW - HACER EL CRUD DE LOS GOALS
 const Goals = ({ metrics, isLoading, goals }: GoalsProps): JSX.Element => {
 
   const [showGoalFormModal, showGoalFormModalSet] = useState(false)

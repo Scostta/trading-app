@@ -1,7 +1,5 @@
 
 import { Button, Flex, IconButton, Select, Text } from '@chakra-ui/react'
-import { Tabs } from '../../components/Tabs'
-import { TABS } from './config'
 import { metatraderAccountIdAtom } from '../../store/account'
 import { BaseSyntheticEvent, useState } from 'react'
 import { useAtom } from 'jotai'
@@ -13,6 +11,7 @@ import { IoMdLogOut } from 'react-icons/io'
 import { brand } from '../../utils/css'
 import { useGetGoals } from '../../hooks/useGoals'
 import { CredentialsModal } from './CredentialsModal'
+import { MyTabs } from './MyTabs'
 
 const Dashboard = (): JSX.Element => {
   const [showCredentialsModal, showCredentialsModalSet] = useState(false)
@@ -37,7 +36,7 @@ const Dashboard = (): JSX.Element => {
       <Flex flexDirection="column" gap={6} pb={6}>
         <Flex justify="space-between" align="center">
           <Select value={metatraderIdAccount ?? ''} w={400} onChange={handleOnChange} _hover={{ borderColor: brand }} _focusVisible={{ borderColor: brand }}>
-            {accounts?.map(({ id, login }) => <option key={id} value={id}>{`Account ${login}`}</option>)}
+            {accounts?.map(({ id, name }) => <option key={id} value={id}>{`Account: ${name}`}</option>)}
           </Select>
           <Flex gap={4}>
             <Button variant="outline" colorScheme='brand' onClick={() => showCredentialsModalSet(true)}>
@@ -55,7 +54,7 @@ const Dashboard = (): JSX.Element => {
             />
           </Flex>
         </Flex>
-        <Tabs tabs={TABS({ metrics, trades, isLoading: metaApiLoading, goals, goalsLoading, account })} containerProps={{ isLazy: true }} />
+        <MyTabs metrics={metrics} trades={trades} isLoading={metaApiLoading} goals={goals} goalsLoading={goalsLoading} account={account} />
       </Flex>
       <CredentialsModal isOpen={showCredentialsModal} onClose={() => showCredentialsModalSet(false)} account={account} />
     </>

@@ -4,17 +4,9 @@ export type Trade = {
   pipsSl: string
   date: string
   orderType: string
-  executionType: string
-  sesion: string
-  killzoneTime: string
   result: string
   id: string
   createdAt: Timestamp
-  strategy: string
-  trend: string
-  scanTimeframe: string
-  entryType: string
-  entryTimeframe: string
   linkId?: string
   accountId: string
   comment?: string
@@ -23,6 +15,13 @@ export type Trade = {
     description?: string
     url: string
   }>
+  entryTimeframe: string
+  sesion: string
+  stage: string
+  executionModel: string
+  hasLiquidity?: boolean
+  interiorFractals?: number
+  hasVTX?: string
 }
 
 export interface Goal {

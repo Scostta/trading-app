@@ -5,20 +5,13 @@ export type AuthFormData = {
 };
 
 export type TradeFormData = {
+  executionModel: string
   pipsSl: string
   date: string
-  orderType: string
-  executionType: string
   sesion: string
-  killzoneTime: string
+  stage: string
   result: string
-  strategy: string
-  trend: string
-  scanTimeframe: string
-  entryType: string
   entryTimeframe: string
-  tradingviewEntry?: FileList | null
-  tradingviewScan?: FileList | null
   isBE?: boolean
   comment?: string
   images?: Array<{
@@ -26,6 +19,10 @@ export type TradeFormData = {
     description?: string
     url: string
   }>
+  hasLiquidity?: boolean
+  interiorFractals?: number
+  hasVTX?: string
+  dependency?: string
 }
 
 export interface GoalFormData {

@@ -3,6 +3,7 @@ import { COLORS } from "../constants/colors"
 import { FaLink, FaUnlink } from 'react-icons/fa'
 import { BsGraphDown, BsGraphUp } from "react-icons/bs";
 import { addSufixToNumber } from "../utils/displays";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 export const DisplayProfit = ({ profit }: { profit: number }): JSX.Element => {
   const color = profit > 0 ? COLORS.GREEN : COLORS.RED

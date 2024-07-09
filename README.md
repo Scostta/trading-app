@@ -27,3 +27,10 @@ FIELDS
   (al ser full tambien tenerlo en cuenta en la parte de trade details y mostrarlo con un Vstack)
 
   --> Cuando se tengan las diferentes estrategias (fields) guardados en el back hacer otra TAB que sea un comparador de estrategias entre ellas
+
+
+CAMPOS STRATEGIA MTDA
+  --> timeframe: 
+      D1-H1-M5
+      H4-M15-M1
+      H1-M5-M1
