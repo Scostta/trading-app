@@ -67,5 +67,10 @@ export const DisplayOptions = (props: { [key: string]: any, options: Array<{ val
   if (orderTypeColors[label ?? '']) return <Tag color={orderTypeColors[label ?? '']}>{label?.toUpperCase()}</Tag>
   if (trendIcon[label ?? '']) return <Flex gap={2} align="center"><Text>{label}</Text>{trendIcon[label ?? '']}</Flex>
   if (options) return <Text color={resultsColor[label ?? ''] ?? "white"}>{label}</Text>
-  return <Text color={typeof value === "number" ? (value > 0) ? COLORS.GREEN : COLORS.RED : "white"}>{value}</Text>
+  return (
+    <Text
+      color={typeof value === "number" ? (value > 0) ? COLORS.GREEN : COLORS.RED : "white"}>
+      {typeof value === "number" ? value.toFixed(2) : value}
+    </Text>
+  )
 }

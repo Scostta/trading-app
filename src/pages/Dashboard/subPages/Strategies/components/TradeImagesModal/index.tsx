@@ -21,7 +21,7 @@ export const TradeImages = ({ images }: TradeImagesProps): JSX.Element | null =>
   return (
     <>
       <Flex direction="column" gap={2}>
-        <Image resize={"both"} height={400} src={image.url}></Image>
+        <Image cursor="pointer" onClick={() => window.open(image.url, '_blank')} height={400} src={image.url} />
         <Flex w="full" justify="space-between">
           <IconButton
             aria-label='left'
